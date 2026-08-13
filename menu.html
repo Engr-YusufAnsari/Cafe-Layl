@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu &amp; Online Order | Cafe Layl — Byculla, Mumbai</title>
+<meta name="description" content="Browse Cafe Layl's full menu — Soups, Fried Rice, Appetizers, Chinese, Continental &amp; Lebanese dishes, mocktails and desserts — and order online via WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="topbar">
+  <span>📍 Shaikh Hafizuddin Marg, Byculla West, Mumbai – 400008</span>
+  <span><strong>Cafe Layl</strong> &nbsp;|&nbsp; <a href="tel:+918879694812">887 969 4812</a></span>
+</div>
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-logo-icon">🌙</div>
+      <div>
+        <div class="nav-wordmark">Cafe <span>Layl</span></div>
+        <span class="nav-tagline">Byculla West, Mumbai</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="menu.html" class="active">Menu</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="reviews.html">Reviews</a></li>
+      <li><a href="catering.html">Private Events</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="menu.html" class="nav-cta">🛍️ Order Online</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <ul>
+    <li><a href="about.html" onclick="closeMobileNav()">About</a></li>
+    <li><a href="menu.html" onclick="closeMobileNav()" class="active">Menu</a></li>
+    <li><a href="gallery.html" onclick="closeMobileNav()">Gallery</a></li>
+    <li><a href="reviews.html" onclick="closeMobileNav()">Reviews</a></li>
+    <li><a href="catering.html" onclick="closeMobileNav()">Private Events</a></li>
+    <li><a href="contact.html" onclick="closeMobileNav()">Contact</a></li>
+    <li style="margin-top:10px;"><a href="menu.html" class="btn-primary" style="justify-content:center;" onclick="closeMobileNav()">🛍️ Order Online</a></li>
+  </ul>
+</div>
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="orb-field">
+    <div class="orb orb-gold" style="width:320px;height:320px;top:-100px;left:-60px;"></div>
+    <div class="orb orb-green" style="width:280px;height:280px;bottom:-120px;right:-60px;animation-delay:-5s;"></div>
+  </div>
+  <div class="page-hero-inner">
+    <div class="page-hero-eyebrow"><a href="index.html">Home</a> &nbsp;/&nbsp; Menu</div>
+    <h1 class="blur-text">Our Menu</h1>
+    <p>Tap the + on any dish to add it to your order. When you're ready, tap "Review Order" to check your items and send them straight to our kitchen on WhatsApp.</p>
+  </div>
+</div>
+
+<!-- FLOATING ORDER BUTTON -->
+<button id="floating-order-btn" onclick="openDrawer()">
+  🛍️ Review Order &nbsp; <span id="cart-count">0</span>
+</button>
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+<!-- ORDER DRAWER -->
+<div id="order-drawer">
+  <div class="drawer-header">
+    <div class="drawer-title">🛍️ <span class="green">Your Order</span></div>
+    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="drawer-body" id="drawerBody">
+    <div class="drawer-empty" id="drawerEmpty">
+      <div class="emoji">🍽️</div>
+      <p>No items yet.<br>Browse the menu and tap <strong>+</strong> to add dishes.</p>
+    </div>
+    <div class="order-items-list" id="orderItemsList" style="display:none;"></div>
+  </div>
+  <div class="drawer-footer" id="drawerFooter" style="display:none;">
+    <div class="customer-fields" id="customerFields">
+      <div class="customer-field-row">
+        <label class="field-label">Your Name *</label>
+        <input type="text" id="customerName" class="field-input" placeholder="Enter your name" />
+      </div>
+      <div class="customer-field-row">
+        <label class="field-label">Delivery Address *</label>
+        <textarea id="customerAddress" class="field-input field-textarea" placeholder="Full delivery address..." rows="2"></textarea>
+      </div>
+    </div>
+    <div class="order-summary">
+      <div class="summary-row">
+        <span id="items-count-label">Items</span>
+        <span id="subtotal-display">₹0</span>
+      </div>
+      <div class="summary-row" id="delivery-row">
+        <span>Delivery</span>
+        <span id="delivery-label" style="color:var(--whatsapp); font-weight:600;">FREE (orders ≥ ₹300)</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total</span>
+        <span class="price-total" id="total-display">₹0</span>
+      </div>
+    </div>
+    <div class="drawer-actions">
+      <button class="btn-whatsapp" onclick="sendWhatsApp()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Send Order via WhatsApp
+      </button>
+      <div id="wa-validation-msg" style="display:none; color:var(--ink); font-size:0.86rem; text-align:center; margin-top:-4px; padding: 0 4px;">
+        ⚠️ Please enter your name and delivery address before ordering.
+      </div>
+      <button class="btn-clear" onclick="clearOrder()">✕ Clear entire order</button>
+    </div>
+  </div>
+</div>
+
+<!-- MENU -->
+<section class="section section-white">
+  <div class="container">
+    <div class="menu-tabs" id="menuTabs">
+<button class="menu-tab active" data-tab="soups">Soups</button>
+<button class="menu-tab" data-tab="friedrice">Fried Rice</button>
+<button class="menu-tab" data-tab="appetizers">Appetizers</button>
+<button class="menu-tab" data-tab="chinese">Chinese</button>
+<button class="menu-tab" data-tab="continental">Continental</button>
+<button class="menu-tab" data-tab="lebanese">Lebanese</button>
+<button class="menu-tab" data-tab="mocktails">Mocktails</button>
+<button class="menu-tab" data-tab="desserts">Desserts</button>
+</div>
+
+<div class="menu-panel active" id="tab-soups">
+<div class="menu-cols">
+<div>
+<div class="menu-group">
+<div class="menu-group-title">Soups · Veg / Chicken</div>
+<div class="dish-row" data-cat="Soup" data-name="Manchow Soup" data-price="139">
+<div class="dish-info"><span class="dish-name">Manchow Soup</span></div>
+<span class="dish-price">₹139 / ₹149</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Soup" data-name="Hot &amp; Sour Soup" data-price="139">
+<div class="dish-info"><span class="dish-name">Hot &amp; Sour Soup</span></div>
+<span class="dish-price">₹139 / ₹149</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Soup" data-name="Lemon Coriander Soup" data-price="139">
+<div class="dish-info"><span class="dish-name">Lemon Coriander Soup</span></div>
+<span class="dish-price">₹139 / ₹149</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Soup" data-name="Clear Thin Soup" data-price="129">
+<div class="dish-info"><span class="dish-name">Clear Thin Soup</span></div>
+<span class="dish-price">₹129 / ₹139</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Soup" data-name="Sweet Corn Soup" data-price="139">
+<div class="dish-info"><span class="dish-name">Sweet Corn Soup</span></div>
+<span class="dish-price">₹139 / ₹149</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="menu-panel" id="tab-friedrice">
+<div class="menu-cols">
+<div>
+<div class="menu-group">
+<div class="menu-group-title">Fried Rice · Veg / Chicken / Seafood</div>
+<div class="dish-row" data-cat="Fried Rice" data-name="Fried Rice" data-price="200">
+<div class="dish-info"><span class="dish-name">Fried Rice</span></div>
+<span class="dish-price">₹200 / ₹230 / ₹269</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Fried Rice" data-name="Burnt Garlic Rice" data-price="220">
+<div class="dish-info"><span class="dish-name">Burnt Garlic Rice</span></div>
+<span class="dish-price">₹220 / ₹249 / ₹289</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Fried Rice" data-name="Chilli Garlic Rice" data-price="229">
+<div class="dish-info"><span class="dish-name">Chilli Garlic Rice</span></div>
+<span class="dish-price">₹229 / ₹249 / ₹289</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Fried Rice" data-name="Schezwan Fried Rice" data-price="229">
+<div class="dish-info"><span class="dish-name">Schezwan Fried Rice</span></div>
+<span class="dish-price">₹229 / ₹249 / ₹289</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Fried Rice" data-name="Singapore Rice" data-price="229">
+<div class="dish-info"><span class="dish-name">Singapore Rice</span></div>
+<span class="dish-price">₹229 / ₹249 / ₹289</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Fried Rice" data-name="Garlic Spinach Corn Fried Rice" data-price="229">
+<div class="dish-info"><span class="dish-name">Garlic Spinach Corn Fried Rice</span></div>
+<span class="dish-price">₹229 / ₹249 / ₹289</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Fried Rice" data-name="Hunan Fried Rice" data-price="239">
+<div class="dish-info"><span class="dish-name">Hunan Fried Rice</span></div>
+<span class="dish-price">₹239 / ₹259 / ₹299</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Fried Rice" data-name="Cafe Layl Special Fried Rice" data-price="239">
+<div class="dish-info"><span class="dish-name">Cafe Layl Special Fried Rice</span><span class="dish-sub">House special</span></div>
+<span class="dish-price">₹239 / ₹259 / ₹299</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Fried Rice" data-name="Shanghai Rice" data-price="240">
+<div class="dish-info"><span class="dish-name">Shanghai Rice</span></div>
+<span class="dish-price">₹240 / ₹260 / ₹300</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Fried Rice" data-name="Mangolian Rice" data-price="240">
+<div class="dish-info"><span class="dish-name">Mangolian Rice</span></div>
+<span class="dish-price">₹240 / ₹260 / ₹300</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Fried Rice" data-name="Combination Rice" data-price="230">
+<div class="dish-info"><span class="dish-name">Combination Rice</span></div>
+<span class="dish-price">₹230 / ₹250 / ₹290</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Fried Rice" data-name="Amul Butter Rice" data-price="240">
+<div class="dish-info"><span class="dish-name">Amul Butter Rice</span></div>
+<span class="dish-price">₹240 / ₹260 / ₹300</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Fried Rice" data-name="Korean Rice" data-price="240">
+<div class="dish-info"><span class="dish-name">Korean Rice</span></div>
+<span class="dish-price">₹240 / ₹260 / ₹300</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="menu-panel" id="tab-appetizers">
+<div class="menu-cols">
+<div>
+<div class="menu-group">
+<div class="menu-group-title">Starters</div>
+<div class="dish-row" data-cat="Appetizer" data-name="Chicken Lollipop" data-price="260">
+<div class="dish-info"><span class="dish-name">Chicken Lollipop</span></div>
+<span class="dish-price">₹260</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Appetizer" data-name="Chicken Lollipop Dry" data-price="260">
+<div class="dish-info"><span class="dish-name">Chicken Lollipop Dry</span></div>
+<span class="dish-price">₹260</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Appetizer" data-name="Dragon Chicken" data-price="280">
+<div class="dish-info"><span class="dish-name">Dragon Chicken</span><span class="dish-sub">Bestseller</span></div>
+<span class="dish-price">₹280</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Appetizer" data-name="Chilli Chicken" data-price="260">
+<div class="dish-info"><span class="dish-name">Chilli Chicken</span></div>
+<span class="dish-price">₹260</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Appetizer" data-name="Red Chilli Chicken" data-price="270">
+<div class="dish-info"><span class="dish-name">Red Chilli Chicken</span></div>
+<span class="dish-price">₹270</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Appetizer" data-name="Chicken Crispy" data-price="280">
+<div class="dish-info"><span class="dish-name">Chicken Crispy</span></div>
+<span class="dish-price">₹280</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Appetizer" data-name="Chicken Wings" data-price="290">
+<div class="dish-info"><span class="dish-name">Chicken Wings</span></div>
+<span class="dish-price">₹290</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+</div>
+</div>
+<div>
+<div class="menu-group">
+<div class="menu-group-title">Sides</div>
+<div class="dish-row" data-cat="Appetizer" data-name="French Fries" data-price="140">
+<div class="dish-info"><span class="dish-name">French Fries</span></div>
+<span class="dish-price">₹140</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Appetizer" data-name="Loaded Fries" data-price="220">
+<div class="dish-info"><span class="dish-name">Loaded Fries</span></div>
+<span class="dish-price">₹220</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Appetizer" data-name="Garlic Bread" data-price="180">
+<div class="dish-info"><span class="dish-name">Garlic Bread</span></div>
+<span class="dish-price">₹180</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="menu-panel" id="tab-chinese">
+<div class="menu-cols">
+<div>
+<div class="menu-group">
+<div class="menu-group-title">Noodles</div>
+<div class="dish-row" data-cat="Chinese" data-name="Hakka Noodles" data-price="210">
+<div class="dish-info"><span class="dish-name">Hakka Noodles</span></div>
+<span class="dish-price">₹210 / ₹240</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Chinese" data-name="Singapore Noodles" data-price="220">
+<div class="dish-info"><span class="dish-name">Singapore Noodles</span></div>
+<span class="dish-price">₹220 / ₹250</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Chinese" data-name="Triple Schezwan Rice" data-price="260">
+<div class="dish-info"><span class="dish-name">Triple Schezwan Rice</span><span class="dish-sub">Rice, noodles &amp; manchurian combo</span></div>
+<span class="dish-price">₹260</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+</div>
+</div>
+<div>
+<div class="menu-group">
+<div class="menu-group-title">Manchurian &amp; Gravy</div>
+<div class="dish-row" data-cat="Chinese" data-name="Veg Manchurian (Dry / Gravy)" data-price="210">
+<div class="dish-info"><span class="dish-name">Veg Manchurian (Dry / Gravy)</span></div>
+<span class="dish-price">₹210</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Chinese" data-name="Chicken Manchurian (Dry / Gravy)" data-price="250">
+<div class="dish-info"><span class="dish-name">Chicken Manchurian (Dry / Gravy)</span></div>
+<span class="dish-price">₹250</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Chinese" data-name="Gravy Combination" data-price="260">
+<div class="dish-info"><span class="dish-name">Gravy Combination</span><span class="dish-sub">Chilli · Manchurian · Schezwan</span></div>
+<span class="dish-price">₹260</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="menu-panel" id="tab-continental">
+<div class="menu-cols">
+<div>
+<div class="menu-group">
+<div class="menu-group-title">Pasta</div>
+<div class="dish-row" data-cat="Continental" data-name="Pasta Alfredo" data-price="260">
+<div class="dish-info"><span class="dish-name">Pasta Alfredo</span></div>
+<span class="dish-price">₹260</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Continental" data-name="Arrabbiata Pasta" data-price="250">
+<div class="dish-info"><span class="dish-name">Arrabbiata Pasta</span></div>
+<span class="dish-price">₹250</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Continental" data-name="White Sauce Pasta" data-price="250">
+<div class="dish-info"><span class="dish-name">White Sauce Pasta</span></div>
+<span class="dish-price">₹250</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Continental" data-name="Pink Sauce Pasta" data-price="260">
+<div class="dish-info"><span class="dish-name">Pink Sauce Pasta</span></div>
+<span class="dish-price">₹260</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+</div>
+</div>
+<div>
+<div class="menu-group">
+<div class="menu-group-title">Sandwiches &amp; Burgers</div>
+<div class="dish-row" data-cat="Continental" data-name="Grilled Sandwich" data-price="180">
+<div class="dish-info"><span class="dish-name">Grilled Sandwich</span></div>
+<span class="dish-price">₹180</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Continental" data-name="Loaded Burger" data-price="220">
+<div class="dish-info"><span class="dish-name">Loaded Burger</span></div>
+<span class="dish-price">₹220</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Continental" data-name="Garlic Toast" data-price="140">
+<div class="dish-info"><span class="dish-name">Garlic Toast</span></div>
+<span class="dish-price">₹140</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Continental" data-name="Cheesy Fries" data-price="200">
+<div class="dish-info"><span class="dish-name">Cheesy Fries</span></div>
+<span class="dish-price">₹200</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="menu-panel" id="tab-lebanese">
+<div class="menu-cols">
+<div>
+<div class="menu-group">
+<div class="menu-group-title">Wraps &amp; Platters</div>
+<div class="dish-row" data-cat="Lebanese" data-name="Chicken Shawarma Roll" data-price="180">
+<div class="dish-info"><span class="dish-name">Chicken Shawarma Roll</span><span class="dish-sub">Bestseller</span></div>
+<span class="dish-price">₹180</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Lebanese" data-name="Falafel Wrap" data-price="160">
+<div class="dish-info"><span class="dish-name">Falafel Wrap</span></div>
+<span class="dish-price">₹160</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Lebanese" data-name="Hummus with Pita" data-price="190">
+<div class="dish-info"><span class="dish-name">Hummus with Pita</span></div>
+<span class="dish-price">₹190</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Lebanese" data-name="Lebanese Mixed Platter" data-price="390">
+<div class="dish-info"><span class="dish-name">Lebanese Mixed Platter</span><span class="dish-sub">Shawarma, falafel, hummus &amp; pita</span></div>
+<span class="dish-price">₹390</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+</div>
+</div>
+<div>
+<div class="menu-group">
+<div class="menu-group-title">Sides</div>
+<div class="dish-row" data-cat="Lebanese" data-name="Pita Bread (Basket)" data-price="90">
+<div class="dish-info"><span class="dish-name">Pita Bread (Basket)</span></div>
+<span class="dish-price">₹90</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Lebanese" data-name="Garlic Sauce" data-price="40">
+<div class="dish-info"><span class="dish-name">Garlic Sauce</span></div>
+<span class="dish-price">₹40</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="menu-panel" id="tab-mocktails">
+<div class="menu-cols">
+<div>
+<div class="menu-group">
+<div class="menu-group-title">Mocktails</div>
+<div class="dish-row" data-cat="Mocktail" data-name="Virgin Mojito" data-price="160">
+<div class="dish-info"><span class="dish-name">Virgin Mojito</span></div>
+<span class="dish-price">₹160</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Mocktail" data-name="Blue Lagoon" data-price="170">
+<div class="dish-info"><span class="dish-name">Blue Lagoon</span></div>
+<span class="dish-price">₹170</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Mocktail" data-name="Watermelon Cooler" data-price="150">
+<div class="dish-info"><span class="dish-name">Watermelon Cooler</span></div>
+<span class="dish-price">₹150</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Mocktail" data-name="Fresh Lime Soda" data-price="90">
+<div class="dish-info"><span class="dish-name">Fresh Lime Soda</span></div>
+<span class="dish-price">₹90</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Mocktail" data-name="Mint Cooler" data-price="140">
+<div class="dish-info"><span class="dish-name">Mint Cooler</span></div>
+<span class="dish-price">₹140</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Mocktail" data-name="Fruit Punch" data-price="160">
+<div class="dish-info"><span class="dish-name">Fruit Punch</span></div>
+<span class="dish-price">₹160</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+</div>
+</div>
+<div>
+<div class="menu-group">
+<div class="menu-group-title">Coffee &amp; Shakes</div>
+<div class="dish-row" data-cat="Beverage" data-name="Cold Coffee" data-price="140">
+<div class="dish-info"><span class="dish-name">Cold Coffee</span></div>
+<span class="dish-price">₹140</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Beverage" data-name="Iced Coffee" data-price="150">
+<div class="dish-info"><span class="dish-name">Iced Coffee</span></div>
+<span class="dish-price">₹150</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Beverage" data-name="Chocolate Shake" data-price="170">
+<div class="dish-info"><span class="dish-name">Chocolate Shake</span></div>
+<span class="dish-price">₹170</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Beverage" data-name="Oreo Shake" data-price="180">
+<div class="dish-info"><span class="dish-name">Oreo Shake</span></div>
+<span class="dish-price">₹180</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Beverage" data-name="KitKat Shake" data-price="190">
+<div class="dish-info"><span class="dish-name">KitKat Shake</span></div>
+<span class="dish-price">₹190</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Beverage" data-name="Fresh Juices (Seasonal)" data-price="130">
+<div class="dish-info"><span class="dish-name">Fresh Juices (Seasonal)</span></div>
+<span class="dish-price">₹130</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="menu-panel" id="tab-desserts">
+<div class="menu-cols">
+<div>
+<div class="menu-group">
+<div class="menu-group-title">Desserts</div>
+<div class="dish-row" data-cat="Dessert" data-name="Chocolate Brownie" data-price="160">
+<div class="dish-info"><span class="dish-name">Chocolate Brownie</span></div>
+<span class="dish-price">₹160</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Dessert" data-name="Ice Cream Sundae" data-price="190">
+<div class="dish-info"><span class="dish-name">Ice Cream Sundae</span></div>
+<span class="dish-price">₹190</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Dessert" data-name="Belgian Chocolate Dessert" data-price="220">
+<div class="dish-info"><span class="dish-name">Belgian Chocolate Dessert</span><span class="dish-sub">Bestseller</span></div>
+<span class="dish-price">₹220</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Dessert" data-name="Waffles" data-price="200">
+<div class="dish-info"><span class="dish-name">Waffles</span></div>
+<span class="dish-price">₹200</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Dessert" data-name="Chocolate Lava Cake" data-price="180">
+<div class="dish-info"><span class="dish-name">Chocolate Lava Cake</span></div>
+<span class="dish-price">₹180</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Dessert" data-name="Classic Ice Cream (Scoop)" data-price="90">
+<div class="dish-info"><span class="dish-name">Classic Ice Cream (Scoop)</span></div>
+<span class="dish-price">₹90</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+<div class="dish-row" data-cat="Dessert" data-name="Premium Dessert Platter" data-price="280">
+<div class="dish-info"><span class="dish-name">Premium Dessert Platter</span></div>
+<span class="dish-price">₹280</span>
+<div class="dish-controls"><button class="add-btn" onclick="addItem(this)">+</button></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">Cafe <span>Layl</span></div>
+        <div class="footer-tagline">Chinese · Continental · Lebanese · Desserts</div>
+        <p class="footer-desc">A modern café in Byculla West, Madanpura serving Chinese, Continental &amp; Lebanese food, handcrafted mocktails and indulgent desserts.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="menu.html">Our Menu</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="reviews.html">Reviews</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="catering.html">Private Events</a></li>
+          <li><a href="tel:+918879694812">Home Delivery</a></li>
+          <li><a href="menu.html">Takeaway</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+918879694812">887 969 4812</a></li>
+          <li><a href="contact.html">Shaikh Hafizuddin Marg, Byculla West, Mumbai – 400008</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Cafe Layl. All rights reserved.</span>
+      <span>A modern café for Byculla &amp; Madanpura's food lovers</span>
+    </div>
+  </div>
+</footer>
+<script src="js/main.js"></script>
+<script src="js/order.js"></script>
+</body>
+</html>
