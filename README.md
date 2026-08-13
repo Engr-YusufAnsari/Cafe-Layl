@@ -33,6 +33,9 @@ As the software engineer, my objective was to capture this modern aesthetic and 
 <table width="100%">
   <tr>
     <td width="50%" align="center">
+      <img src="https://github.com/user-attachments/assets/b3a94dc3-9e06-4f77-b4b8-6d030b6e3bc1" width="100%" alt="Interface view 1"><br>
+    </td>
+    <td width="50%" align="center">
       <img src="https://github.com/user-attachments/assets/6888c045-ecf7-4543-a04a-13bd87572eea" width="100%" alt="Interface view 1"><br>
     </td>
     <td width="50%" align="center">
